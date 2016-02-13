@@ -24,23 +24,28 @@ class MemeDetailViewController: UIViewController, UINavigationControllerDelegate
         editButton = UIBarButtonItem(title: "Edit", style: .Done, target: self, action: "editMeme:")
         deleteButton = UIBarButtonItem(title: "Delete", style: .Done, target: self, action: "deleteMeme:")
         
-        self.navigationItem.rightBarButtonItems = [editButton,deleteButton]
+        navigationItem.rightBarButtonItems = [editButton,deleteButton]
         
-        self.image.image = meme.memedImage
+        image.image = meme.memedImage
+        
+        image.contentMode = .ScaleAspectFit
+        
     }
     
     @IBAction func editMeme(sender: AnyObject){
-        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("MemeEditorViewController") as! MemeEditorViewController
+        let detailController = storyboard!.instantiateViewControllerWithIdentifier("MemeEditorViewController") as! MemeEditorViewController
         detailController.meme   = meme
         detailController.currentlyEditing = currentMeme
         
-        self.navigationController!.pushViewController(detailController, animated: true)
+        navigationController!.pushViewController(detailController, animated: true)
     }
     
     @IBAction func deleteMeme(sender: AnyObject){
         (UIApplication.sharedApplication().delegate as! AppDelegate).memes.removeAtIndex(currentMeme)
         print("Meme Delete Successfull!")
-        self.dismissViewControllerAnimated(true, completion: nil)
+        navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        let detailController = storyboard!.instantiateViewControllerWithIdentifier("MemeTabBarController") as! UITabBarController
+        navigationController?.presentViewController(detailController, animated: true,completion:nil)
     }
     
     

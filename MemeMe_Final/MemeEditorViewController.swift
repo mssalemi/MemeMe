@@ -12,7 +12,6 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
     
     // Mark : Meme
     var meme : Meme!
-    var keyboardHidden = true
     var currentlyEditing: Int!
     
     // MARK :  Items
@@ -31,14 +30,12 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
         let image = generateMemedImage()
         let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
         presentViewController(controller, animated:  true, completion:  nil)
-        
-        let object = UIApplication.sharedApplication().delegate
-        let appDelegate = object as! AppDelegate
-        print(appDelegate.memes)
     }
     
     @IBAction func cancel(sender: AnyObject){
-        self.dismissViewControllerAnimated(true, completion: nil)
+        navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        let detailController = storyboard!.instantiateViewControllerWithIdentifier("MemeTabBarController") as! UITabBarController
+        navigationController?.presentViewController(detailController, animated: true,completion:nil)
     }
     
     @IBAction func cameraImage(sender: AnyObject) {
@@ -63,7 +60,7 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
     
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage, editingInfo: [String : AnyObject]?) {
         let selectedImage : UIImage = image
-        self.imagePickerView.image = selectedImage
+        imagePickerView.image = selectedImage
         dismissViewControllerAnimated(true, completion: nil)
         topTextField.hidden = false
         bottomTextField.hidden = false
@@ -78,7 +75,6 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
-        view.endEditing(true)
         textField.resignFirstResponder()
         return true
     }
@@ -106,6 +102,8 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
         }
         
         cameraButton.enabled = UIImagePickerController.isSourceTypeAvailable(.Camera)
+        
+        imagePickerView.contentMode = .ScaleAspectFit
 
     }
     
@@ -114,11 +112,11 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
         super.viewWillAppear(animated)
         subscribeToKeyboardNotifications()
         
-        self.navigationController?.setToolbarHidden(false, animated: true)
-        self.navigationItem.hidesBackButton = true
-        self.navigationItem.rightBarButtonItem = cancelButton
-        self.navigationItem.leftBarButtonItem = shareButton
-        self.toolbarItems = [cameraButton,albumButton]
+        navigationController?.setToolbarHidden(false, animated: true)
+        navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = cancelButton
+        navigationItem.leftBarButtonItem = shareButton
+        toolbarItems = [cameraButton,albumButton]
         
     }
     
@@ -163,30 +161,26 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        if(keyboardHidden ){
-            self.view.frame.origin.y -= getKeyboardHeight(notification)
-            keyboardHidden = false
+        if bottomTextField.isFirstResponder() {
+            view.frame.origin.y = -getKeyboardHeight(notification)
         }
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        if(!keyboardHidden){
-            self.view.frame.origin.y += getKeyboardHeight(notification)
-            keyboardHidden = true
-        }
+        view.frame.origin.y = 0
     }
     
     // MARK: Saving/Generating
     func save() {
         
-        if self.imagePickerView.image == nil {
+        if imagePickerView.image == nil {
             let alert = UIAlertController()
             alert.title = "Please add and image!"
             let okAction = UIAlertAction(title: "Ok.", style: UIAlertActionStyle.Default) {
                 action in self.dismissViewControllerAnimated(true, completion: nil)
             }
             alert.addAction(okAction)
-            self.presentViewController(alert, animated: true, completion: nil)
+            presentViewController(alert, animated: true, completion: nil)
             return
         }
         if currentlyEditing == -1 {
@@ -200,8 +194,8 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
     }
     
     func generateMemedImage() -> UIImage {
-        UIGraphicsBeginImageContext(self.view.frame.size)
-        view.drawViewHierarchyInRect(self.view.frame, afterScreenUpdates: true)
+        UIGraphicsBeginImageContext(view.frame.size)
+        view.drawViewHierarchyInRect(view.frame, afterScreenUpdates: true)
         let memeImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

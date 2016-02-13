@@ -115,7 +115,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="65g-8C-fQh">
             <objects>
-                <tabBarController id="JJs-79-umz" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MemeTabBarController" id="JJs-79-umz" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="fUx-PK-hT2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -160,7 +160,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EEU-aG-ZPz" id="Ox8-KH-DT1">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -223,11 +223,11 @@
             </objects>
             <point key="canvasLocation" x="-66" y="1757"/>
         </scene>
-        <!--Item-->
+        <!--Collection-->
         <scene sceneID="DLZ-TY-jKH">
             <objects>
                 <navigationController storyboardIdentifier="CollectionViewController" id="yFQ-g4-lRI" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="zW6-oC-cgA"/>
+                    <tabBarItem key="tabBarItem" title="Collection" id="zW6-oC-cgA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="qDv-8F-Q7r">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
