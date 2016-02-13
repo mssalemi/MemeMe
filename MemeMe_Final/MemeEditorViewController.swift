@@ -188,7 +188,7 @@ class MemeEditorViewController: UIViewController,UINavigationControllerDelegate,
             (UIApplication.sharedApplication().delegate as! AppDelegate).memes.append(meme)
             print("New Meme Saved")
         } else {
-            (UIApplication.sharedApplication().delegate as! AppDelegate).memes[currentlyEditing] = meme
+            (UIApplication.sharedApplication().delegate as! AppDelegate).memes[currentlyEditing] = Meme(top: topTextField.text!, bottom: bottomTextField.text!, original: imagePickerView.image!, meme: generateMemedImage())
             print("Meme Edit Successfull!")
         }
     }

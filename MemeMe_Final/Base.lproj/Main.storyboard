@@ -210,6 +210,9 @@
                                     <constraint firstAttribute="trailingMargin" secondItem="Oi4-iZ-poi" secondAttribute="trailing" constant="9" id="dRo-Ic-7S6"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="Oi4-iZ-poi" secondAttribute="bottom" constant="8" id="dya-j4-N5l"/>
                                 </constraints>
+                                <connections>
+                                    <outlet property="memeImageView" destination="Oi4-iZ-poi" id="HBf-pV-FzK"/>
+                                </connections>
                             </collectionViewCell>
                         </cells>
                         <connections>
